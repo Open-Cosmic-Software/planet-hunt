@@ -48,8 +48,8 @@ significant figures.** Radii from BLS depth alone are only approximate
 
 | Target        | Our period | Literature | Our radius | Lit radius | Note                 |
 |---------------|-----------:|-----------:|-----------:|-----------:|----------------------|
-| Pi Mensae c   |  6.26746 d |  6.2678 d  |  1.65 R⊕   |  2.02 R⊕   | period exact         |
-| TOI-700 (16d) | 16.05059 d | 16.0511 d  |  ~2.0 R⊕   |  2.54 R⊕   | this is **TOI-700 c**|
+| Pi Mensae c   |  6.26777 d |  6.2678 d  |  2.13 R⊕   |  2.02 R⊕   | v2, matches well     |
+| TOI-700 (16d) | 16.05059 d | 16.0511 d  |  ~2.5 R⊕   |  2.54 R⊕   | this is **TOI-700 c**|
 | TOI-1169.01   |  6.70720 d |  6.7075 d  |  sub-Saturn| sub-Saturn | period exact         |
 
 For TOI-1169.01 (an *unconfirmed* TESS Planet Candidate) the pipeline
@@ -61,10 +61,14 @@ independently recovered the dip at SNR ≈ 99, odd-even difference 0.04
 - **We mislabeled the 16.05 d TOI-700 signal as "TOI-700 d".** It is
   **TOI-700 c** (P=16.05 d, 2.54 R⊕). The famous habitable-zone planet
   TOI-700 d has P=37.4 d. Thanks Tyto 🦉 for catching this.
-- **BLS depth underestimates radius.** Pi Men c came out 1.47 R⊕ (v1,
-  short flatten window eating the transit) → 1.65 R⊕ (v2, transit-masked
-  flattening) vs. literature 2.02 R⊕. A proper `batman` transit fit with
-  limb darkening is needed to close the gap.
+- **BLS depth underestimated radius — now fixed.** Pi Men c went
+  1.47 R⊕ (v1) → 1.65 R⊕ (first mask attempt) → **2.13 R⊕** (v2 final,
+  literature 2.02). The root cause, spotted by Tyto: with 12 sectors the
+  coarse search locked onto *3×* the period, so the transit mask only hit
+  every third transit. Fixes: (1) harmonic check that keeps the true
+  period, (2) time-based detrend window (~1 day) instead of a fixed point
+  count, (3) a transit-duration grid for BLS. A `batman` fit would still
+  refine it further.
 
 ## Honesty notes
 
